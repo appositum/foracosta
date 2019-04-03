@@ -1,0 +1,17 @@
+{
+  "name": "foracosta",
+  "version": "0.2.0",
+  "repository": "https://github.com/appositum/foracosta.git",
+  "author": "eddie <appositum@protonmail.com>",
+  "license": "Apache-2.0",
+  "esy": {
+    "build": "dune build -p #{self.name}",
+    "release": { "bin": "foracosta", "includePackages": [ "src" ] }
+  },
+  "scripts": { "repl": "esy build dune utop", "run": "esy x foracosta" },
+  "dependencies": {
+    "ocaml": "^4.7.1004",
+    "@opam/utop": "2.3.0",
+    "@opam/dune": "1.8.2"
+  }
+}
