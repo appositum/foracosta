@@ -16,7 +16,21 @@ let decimal =
     | _ -> false
   in Int.of_string <$> take_while1 is_digit
 
-let to_num (c : char) : int = int_of_string (String.make 1 c)
+let tokenize p = many (char ' ') *> p <* many (char ' ')
+
+let integer = tokenize decimal
+
+let push = string "push" *> integer >>= fun x -> return (Push x)
+let pop = string "pop" *> return Pop
+let add = string "add" *> return Add
+let mul = string "mul" *> return Mul
+
+let cmd = add <|> mul <|> pop <|> push
+
+let parse_cmds =
+  let eol = end_of_line in
+  let eof = end_of_input in
+  parse_string (sep_by1 eol cmd <* many eol <* eof)
 
 let rec tokenize (xss : char list) : token list =
   match xss with
