@@ -61,3 +61,29 @@ let read_lines filename =
   with End_of_file ->
     close_in chan;
     List.rev !lines
+
+let read_file filename =
+  filename
+  |> read_lines
+  |> List.intersperse ~sep:"\n"
+  |> List.fold_left ~init:"" ~f:(^)
+
+let parse_file filename =
+  filename
+  |> read_file
+  |> parse_cmds
+
+let compile input =
+  match parse_cmds input with
+  | Error err -> Error err
+  | Ok res ->
+    begin
+      match eval res |> Stack.pop with
+      | Some value -> Ok (Int.to_string value)
+      | None -> Error "empty stack"
+    end
+
+let execute input =
+  match compile input with
+  | Error err -> Caml.print_endline err
+  | Ok res -> Caml.print_endline res
