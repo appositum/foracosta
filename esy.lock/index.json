@@ -27,7 +27,7 @@
       },
       "overrides": [],
       "dependencies": [
-        "ocaml@4.7.1004@d41d8cd9", "@opam/utop@opam:2.3.0@ac7267ea",
+        "ocaml@4.7.1004@d41d8cd9", "@opam/utop@opam:2.3.0@fe1af53b",
         "@opam/dune@opam:1.8.2@511996a8", "@opam/base@opam:v0.12.0@bd6e6655",
         "@opam/angstrom@opam:0.11.2@2e02b026"
       ],
@@ -63,8 +63,8 @@
         "@opam/base-bytes@opam:base@19d0c2ff"
       ]
     },
-    "@opam/utop@opam:2.3.0@ac7267ea": {
-      "id": "@opam/utop@opam:2.3.0@ac7267ea",
+    "@opam/utop@opam:2.3.0@fe1af53b": {
+      "id": "@opam/utop@opam:2.3.0@fe1af53b",
       "name": "@opam/utop",
       "version": "opam:2.3.0",
       "source": {
