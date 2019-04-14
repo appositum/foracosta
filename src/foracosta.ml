@@ -32,11 +32,18 @@ let parse_cmds =
   let eof = end_of_input in
   parse_string (sep_by1 eol cmd <* many eol <* eof)
 
-let rec tokenize (xss : char list) : token list =
-  match xss with
-  | [] -> []
-  | '+' :: xs -> TokenAdd :: tokenize xs
-  | '*' :: xs -> TokenMul :: tokenize xs
-  | x :: xs ->
-    let rest = tokenize xs in
-    if is_digit x then TokenNum (to_num x) :: rest else rest
+let rec eval stack = function
+  | [] -> stack
+  | Push n :: xs ->
+    Stack.push stack n; eval stack xs
+  | Add :: xs ->
+    let new_stack = Stack.create () in
+    Stack.push new_stack (Stack.fold stack ~init:0 ~f:(+));
+    eval new_stack xs
+  | Mul :: xs ->
+    let new_stack = Stack.create () in
+    Stack.push new_stack (Stack.fold stack ~init:1 ~f:( * ));
+    eval new_stack xs
+  | Pop :: xs ->
+    let _ = Stack.pop stack in
+    eval stack xs
