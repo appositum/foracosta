@@ -32,23 +32,25 @@ let parse_cmds =
   let eof = end_of_input in
   parse_string (sep_by1 eol cmd <* many eol <* eof)
 
-let rec eval stack = function
+let rec eval' stack = function
   | [] -> stack
   | Push n :: xs ->
-    Stack.push stack n; eval stack xs
+    Stack.push stack n; eval' stack xs
   | Add :: xs ->
     let new_stack = Stack.create () in
     Stack.push new_stack (Stack.fold stack ~init:0 ~f:(+));
-    eval new_stack xs
+    eval' new_stack xs
   | Mul :: xs ->
     let new_stack = Stack.create () in
     Stack.push new_stack (Stack.fold stack ~init:1 ~f:( * ));
-    eval new_stack xs
+    eval' new_stack xs
   | Pop :: xs ->
     let _ = Stack.pop stack in
-    eval stack xs
+    eval' stack xs
 
-let read_file filename = 
+let eval = eval' (Stack.create ())
+
+let read_lines filename = 
   let open Caml in
   let lines = ref [] in
   let chan = open_in filename in
