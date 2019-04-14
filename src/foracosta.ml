@@ -1,20 +1,20 @@
-type token =
-  | TokenNum of int
-  | TokenAdd
-  | TokenMul
+open Angstrom
+open Base
 
-type op = Add | Mul
+type command =
+  | Push of int
+  | Pop
+  | Add
+  | Mul
 
-type ast =
-  | Val of int
-  | App of op * ast list
+let unpack s = List.init (String.length s) ~f:(String.get s)
+let pack = List.fold_left ~f:(fun acc x -> acc ^ String.make 1 x) ~init:""
 
-let unpack s = List.init (String.length s) (String.get s)
-let pack = List.fold_left (fun acc x -> acc ^ String.make 1 x) ""
-
-let is_digit = function
-  | '0'..'9' -> true
-  | _ -> false
+let decimal =
+  let is_digit = function
+    | '0'..'9' -> true
+    | _ -> false
+  in Int.of_string <$> take_while1 is_digit
 
 let to_num (c : char) : int = int_of_string (String.make 1 c)
 
