@@ -1,0 +1,4 @@
+(library
+  (name foracosta)
+  (public_name foracosta)
+  (libraries base angstrom))
